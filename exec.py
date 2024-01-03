@@ -30,9 +30,9 @@ def add_to_path(bin_directory):
             with open(profile_file, "a") as f:
                 f.write(f"\nexport PATH={updated_path_str}")
 
-def create_expense_tracker_executable():
+def executable_file():
     # Set the script name and output directory for the Expense Tracker
-    script_name = "main.py"  # This is the name of your main script
+    script_name = "gfetch.py"  # This is the name of your main script
     output_directory = "dist"
 
     # Run PyInstaller to create the single-file executable
@@ -41,17 +41,11 @@ def create_expense_tracker_executable():
 
     # Rename the executable (remove the .exe extension on non-Windows systems)
     if platform.system() != "Windows":
-        shutil.move(os.path.join(output_directory, "gfetch.exe"), os.path.join(output_directory, "main"))
+        shutil.move(os.path.join(output_directory, "gfetch.exe"), os.path.join(output_directory, "gfetch"))
 
-def install_modules():
-    required_modules = ['os', 'platform', 'getpass', 'psutil', 'subprocess', 'random']
-
-    for module in required_modules:
-        try:
-            subprocess.run(['pip', 'install', module], check=True)
-            print(f"Module {module} installed successfully.")
-        except subprocess.CalledProcessError as e:
-            print(f"Error installing {module}: {e}")
+def main():
+    print("Creating Gfetch executable...")
+    executable_file()
 
     # Create 'bin' directory and copy the executable to it
     bin_directory = os.path.join(os.path.expanduser("~"), "bin")
@@ -62,7 +56,7 @@ def install_modules():
     print("Adding the Gfetch executable to the system's PATH...")
     add_to_path(bin_directory)
 
-    print("You can now run Gfetch")
+    print("Gfetch executable is now available on your system.")
 
 if __name__ == "__main__":
     main()
