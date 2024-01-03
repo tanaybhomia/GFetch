@@ -4,6 +4,7 @@ import getpass
 import psutil
 from datetime import datetime, timedelta
 import json
+import subprocess
 
 # Get username and operating system
 username = getpass.getuser()
@@ -41,21 +42,32 @@ else :
 formatted_uptime = format_uptime(uptime_seconds)
 
 # Processor Infromation
+def get_cpu_model():
+    try:
+        result = subprocess.check_output(["wmic", "cpu", "get", "name"]).decode("utf-8")
+        lines = result.splitlines()
+        if len(lines) > 2:
+            # Skip the header and get the model name
+            return " ".join(lines[2:])
+    except subprocess.CalledProcessError:
+        pass
 
+    return "Unknown"
 
-
+# Get CPU model information
+cpu_model = get_cpu_model()
 
 # Print information with a simple box
-box_top = "+" + "-" * 50 + "+"
-box_bottom = "+" + "-" * 50 + "+"
+box_top = "+" + "-" * 60 + "+"
+box_bottom = "+" + "-" * 60 + "+"
 
 print(box_top)
-print(f"|{' '*50}|")
-print(f"| 👤 : {username:43} |")
-print(f"| 💻 : {os_type:43} |")
-print(f"| 🐏 : {used_ram} GB | {total_ram} GB  {' '*25}|")
-print(f"| {finalbattery:47} |")
-print(f"| ⌛ : {formatted_uptime:43} |")
-print(f"| 🚀 : {brandname:43} |")
-print(f"|{' '*50}|")
+print(f"|{' '*60}|")
+print(f"| 👤 : {username:53} |")
+print(f"| 💻 : {os_type:53} |")
+print(f"| 🐏 : {used_ram} GB | {total_ram} GB  {' '*35}|")
+print(f"| {finalbattery:57} |")
+print(f"| ⌛ : {formatted_uptime:53} |")
+print(f"| 🚀 : {cpu_model:53} |")
+print(f"|{' '*60}|")
 print(box_bottom)

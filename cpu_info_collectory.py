@@ -1,18 +1,19 @@
-import json
-import cpuinfo
+import subprocess
 
-def get_cpu_info():
+def get_cpu_model():
     try:
-        info = cpuinfo.get_cpu_info()
-        return {"brand_raw": info["brand_raw"]}
-    except Exception as e:
-        print(f"Error retrieving CPU information: {e}")
-        return {"brand_raw": "Unknown"}
+        result = subprocess.check_output(["wmic", "cpu", "get", "name"]).decode("utf-8")
+        lines = result.splitlines()
+        if len(lines) > 2:
+            # Skip the header and get the model name
+            return " ".join(lines[2:])
+    except subprocess.CalledProcessError:
+        pass
 
-def save_to_json(data, filename='cpu_info.json'):
-    with open(filename, 'w') as file:
-        json.dump(data, file)
+    return "Unknown"
 
-if __name__ == "__main__":
-    cpu_info = get_cpu_info()
-    save_to_json(cpu_info)
+# Get CPU model information
+cpu_model = get_cpu_model()
+
+# Display the CPU model
+print(f"CPU Model: {cpu_model}")
