@@ -64,7 +64,6 @@ bar_color = random.choice(colors)
 box_top = f"{bar_color}+" + "-" * 60 + "+\033[0m"
 box_bottom = f"{bar_color}+" + "-" * 60 + "+\033[0m"
 
-print("\n")
 print(box_top)
 print(f"{bar_color}|{' '*60}|\033[0m")
 print(f"{bar_color}| 👤 :: {username:52} |\033[0m")
