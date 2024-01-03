@@ -4,7 +4,6 @@ import getpass
 import psutil
 from datetime import datetime, timedelta
 import json
-from PIL import Image
 
 # Get username and operating system
 username = getpass.getuser()
@@ -42,19 +41,9 @@ else :
 formatted_uptime = format_uptime(uptime_seconds)
 
 # Processor Infromation
-# Retrieve CPU information from JSON file
-cpu_info_filename = 'cpu_info.json'
-brandname = "Unknown"
 
-try:
-    if os.path.exists(cpu_info_filename):
-        with open(cpu_info_filename, 'r') as file:
-            cpu_info = json.load(file)
-            brandname = cpu_info.get('brand_raw', 'Unknown')
-    else:
-        print(f"Error: {cpu_info_filename} does not exist.")
-except Exception as e:
-    print(f"Error reading CPU information from {cpu_info_filename}: {e}")
+
+
 
 # Print information with a simple box
 box_top = "+" + "-" * 50 + "+"
